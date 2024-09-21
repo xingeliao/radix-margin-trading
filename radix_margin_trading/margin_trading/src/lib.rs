@@ -43,5 +43,10 @@ mod hello {
             // In this case, a bucket containing 1 HelloToken is returned
             self.sample_vault.take(1)
         }
+        pub fn add_one_plus_one() -> i32 {
+            let result = 1 + 1;
+            info!("1 + 1 = {}", result);
+            result
+        }
     }
 }
