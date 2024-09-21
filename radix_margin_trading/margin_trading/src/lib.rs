@@ -1,52 +1,38 @@
 use scrypto::prelude::*;
 
+#[derive(ScryptoSbor, Clone, Debug)]
+pub struct AccountData {
+    pub balance: Decimal,
+    pub margin_used: Decimal,
+}
+
 #[blueprint]
-mod hello {
-    struct Hello {
-        // Define what resources and data will be managed by Hello components
-        sample_vault: Vault,
+mod account_manager {
+    struct AccountManager {
+        account: AccountData,
     }
 
-    impl Hello {
-        // Implement the functions and methods which will manage those resources and data
-
-        // This is a function, and can be called directly on the blueprint once deployed
-        pub fn instantiate_hello() -> Global<Hello> {
-            // Create a new token called "HelloToken," with a fixed supply of 1000, and put that supply into a bucket
-            let my_bucket: Bucket = ResourceBuilder::new_fungible(OwnerRole::None)
-                .divisibility(DIVISIBILITY_MAXIMUM)
-                .metadata(metadata! {
-                    init {
-                        "name" => "HelloToken", locked;
-                        "symbol" => "HT", locked;
-                    }
-                })
-                .mint_initial_supply(1000)
-                .into();
-
-            // Instantiate a Hello component, populating its vault with our supply of 1000 HelloToken
-            Self {
-                sample_vault: Vault::with_bucket(my_bucket),
-            }
-            .instantiate()
-            .prepare_to_globalize(OwnerRole::None)
-            .globalize()
+    impl AccountManager {
+        pub fn instantiate(initial_balance: Decimal) -> Global<AccountManager> {
+            let account_manager = Self {
+                account: AccountData {
+                    balance: initial_balance,
+                    margin_used: Decimal::ZERO,
+                },
+            };
+            account_manager.instantiate().prepare_to_globalize(OwnerRole::None).globalize()
         }
 
-        // This is a method, because it needs a reference to self.  Methods can only be called on components
-        pub fn free_token(&mut self) -> Bucket {
-            info!(
-                "My balance is: {} HelloToken. Now giving away a token!",
-                self.sample_vault.amount()
-            );
-            // If the semi-colon is omitted on the last line, the last value seen is automatically returned
-            // In this case, a bucket containing 1 HelloToken is returned
-            self.sample_vault.take(1)
+        pub fn get_account(&self) -> AccountData {
+            self.account.clone()
         }
-        pub fn add_one_plus_one() -> i32 {
-            let result = 1 + 1;
-            info!("1 + 1 = {}", result);
-            result
+
+        pub fn update_balance(&mut self, amount: Decimal) {
+            self.account.balance += amount;
+        }
+
+        pub fn update_margin(&mut self, amount: Decimal) {
+            self.account.margin_used += amount;
         }
     }
 }

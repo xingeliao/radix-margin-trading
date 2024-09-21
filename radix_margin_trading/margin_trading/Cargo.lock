@@ -592,6 +592,7 @@ version = "1.0.0"
 dependencies = [
  "scrypto",
  "scrypto-test",
+ "serde",
 ]
 
 [[package]]
