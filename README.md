@@ -2,12 +2,20 @@
 
 This project implements a margin trading application, consisting of a Scrypto backend and a React frontend.
 
+## Knowledge
+
+- Understand Margin Trading: https://www.youtube.com/watch?v=h5wZoNSynh8
+- Margin Trading Example: https://www.binance.com/en/futures/home
+- We want to create a margin trading app based on Radix token, a simplified version of this app: https://app.drift.trade/
+
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
-- [Rust](https://www.rust-lang.org/tools/install)
-- [Node.js](https://nodejs.org/) (v14 or later)
-- [Scrypto CLI](https://docs.radixdlt.com/main/scrypto/getting-started/install-scrypto.html)
+Before you begin, follow this page to set up the enviorment:
+https://docs.radixdlt.com/docs/getting-rust-scrypto
+1. Install Rust compiler
+2. Enable cargo in the current shell
+3. Add WebAssembly target
+4. Install Radix Engine Simulator and command-line tools
 
 ## Installation
 
@@ -27,6 +35,7 @@ cd radix-margin-trading
 
 2. Install dependencies:
    ```bash
+   npm install
    npm install @radixdlt/radix-dapp-toolkit
    ```
 
@@ -70,16 +79,18 @@ cd radix-margin-trading
 3. Start the Radix Engine Simulator:
    ```bash
    resim reset
+   resim new-account
    ```
 
 4. Publish the package:
    ```bash
    resim publish .
    ```
+   More information regarding Radix Engine Simulator: https://docs.radixdlt.com/docs/resim-radix-engine-simulator
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome!
 
 ## License
 
